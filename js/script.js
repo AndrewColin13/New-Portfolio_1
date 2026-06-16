@@ -200,48 +200,32 @@
     toast.hideTimeout = setTimeout(() => toast.classList.remove('visible'), 4200);
   }
 
+  function getQueryParam(name) {
+    const params = new URLSearchParams(window.location.search);
+    return params.get(name);
+  }
+
   const contactForm = document.getElementById('contactForm');
   if (contactForm) {
+    const nextField = document.getElementById('formNext');
+    if (nextField) {
+      const baseUrl = window.location.origin + window.location.pathname;
+      nextField.value = baseUrl + '?success=true';
+    }
+
+    if (getQueryParam('success') === 'true') {
+      showToast('Thank you! Your message has been sent successfully.');
+    }
+
     contactForm.addEventListener('submit', (event) => {
-      event.preventDefault();
       const name = document.getElementById('contactName').value.trim();
       const email = document.getElementById('contactEmail').value.trim();
       const message = document.getElementById('contactMessage').value.trim();
 
       if (!name || !email || !message) {
+        event.preventDefault();
         showToast('Please fill in all fields before sending.', true);
-        return;
       }
-
-      const endpoint = contactForm.action;
-      const payload = {
-        name,
-        email,
-        message,
-        _subject: 'New project inquiry from ' + name,
-        _captcha: 'false'
-      };
-
-      fetch(endpoint, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json'
-        },
-        body: JSON.stringify(payload)
-      })
-      .then(response => response.json())
-      .then(data => {
-        if (data.success === 'true' || data.success === true) {
-          showToast('Thank you! Your message has been sent successfully.');
-          contactForm.reset();
-        } else {
-          showToast('There was a problem sending the message. Please try again.', true);
-        }
-      })
-      .catch(() => {
-        showToast('Unable to send the message right now. Please try again later.', true);
-      });
     });
   }
 
