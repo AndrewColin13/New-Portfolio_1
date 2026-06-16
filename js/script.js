@@ -209,26 +209,21 @@
   if (contactForm) {
     const nextField = document.getElementById('formNext');
     if (nextField) {
-      const baseUrl = window.location.origin + window.location.pathname;
-        nextField.value = baseUrl + '?success=true#contact';
+      nextField.value = window.location.origin + window.location.pathname + '?success=true#contact';
+    }
+
+    if (getQueryParam('success') === 'true') {
+      showToast('Thank you! Your message has been sent successfully.');
     }
 
     contactForm.addEventListener('submit', (event) => {
       const name = document.getElementById('contactName').value.trim();
       const email = document.getElementById('contactEmail').value.trim();
       const message = document.getElementById('contactMessage').value.trim();
-      const submitButton = contactForm.querySelector('[type="submit"]');
 
       if (!name || !email || !message) {
         event.preventDefault();
         showToast('Please fill in all fields before sending.', true);
-        return;
-      }
-
-      showToast('Thank you! Your message has been sent successfully.');
-      if (submitButton) {
-        submitButton.disabled = true;
-        submitButton.textContent = 'Sending...';
       }
     });
   }
