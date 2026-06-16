@@ -221,10 +221,18 @@
       const name = document.getElementById('contactName').value.trim();
       const email = document.getElementById('contactEmail').value.trim();
       const message = document.getElementById('contactMessage').value.trim();
+      const submitButton = contactForm.querySelector('[type="submit"]');
 
       if (!name || !email || !message) {
         event.preventDefault();
         showToast('Please fill in all fields before sending.', true);
+        return;
+      }
+
+      showToast('Thank you! Your message has been sent successfully.');
+      if (submitButton) {
+        submitButton.disabled = true;
+        submitButton.textContent = 'Sending...';
       }
     });
   }
