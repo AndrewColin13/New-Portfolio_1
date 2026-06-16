@@ -213,15 +213,35 @@
         return;
       }
 
-      const subject = encodeURIComponent('Project Inquiry from ' + name);
-      const body = encodeURIComponent(
-        'Hi Andrew,%0D%0A%0D%0A' + message + '%0D%0A%0D%0A' +
-        'From: ' + name + '%0D%0A' +
-        'Email: ' + email + '%0D%0A'
-      );
-      window.location.href = 'mailto:andrewcolindeleon13@gmail.com?subject=' + subject + '&body=' + body;
-      showToast('Thank you! Your message has been sent successfully.');
-      contactForm.reset();
+      const endpoint = contactForm.action;
+      const payload = {
+        name,
+        email,
+        message,
+        _subject: 'New project inquiry from ' + name,
+        _captcha: 'false'
+      };
+
+      fetch(endpoint, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify(payload)
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.success === 'true' || data.success === true) {
+          showToast('Thank you! Your message has been sent successfully.');
+          contactForm.reset();
+        } else {
+          showToast('There was a problem sending the message. Please try again.', true);
+        }
+      })
+      .catch(() => {
+        showToast('Unable to send the message right now. Please try again later.', true);
+      });
     });
   }
 
