@@ -210,11 +210,7 @@
     const nextField = document.getElementById('formNext');
     if (nextField) {
       const baseUrl = window.location.origin + window.location.pathname;
-      nextField.value = baseUrl + '?success=true';
-    }
-
-    if (getQueryParam('success') === 'true') {
-      showToast('Thank you! Your message has been sent successfully.');
+        nextField.value = baseUrl + '?success=true#contact';
     }
 
     contactForm.addEventListener('submit', (event) => {
