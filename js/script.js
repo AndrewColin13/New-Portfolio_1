@@ -206,24 +206,35 @@
   }
 
   const contactForm = document.getElementById('contactForm');
-  if (contactForm) {
-    const nextField = document.getElementById('formNext');
-    if (nextField) {
-      nextField.value = window.location.origin + window.location.pathname + '?success=true#contact';
-    }
+  const formStatus = document.getElementById('formStatus');
 
-    if (getQueryParam('success') === 'true') {
-      showToast('Thank you! Your message has been sent successfully.');
-    }
+  if (contactForm && formStatus) {
+    contactForm.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      formStatus.textContent = 'Sending your message…';
 
-    contactForm.addEventListener('submit', (event) => {
-      const name = document.getElementById('contactName').value.trim();
-      const email = document.getElementById('contactEmail').value.trim();
-      const message = document.getElementById('contactMessage').value.trim();
+      const formData = new FormData(contactForm);
+      const data = Object.fromEntries(formData.entries());
 
-      if (!name || !email || !message) {
-        event.preventDefault();
-        showToast('Please fill in all fields before sending.', true);
+      try {
+        const response = await fetch(contactForm.action, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+          },
+          body: JSON.stringify(data)
+        });
+
+        if (!response.ok) {
+          throw new Error('Submission failed.');
+        }
+
+        contactForm.reset();
+        formStatus.textContent = 'Thanks! Your message has been sent successfully.';
+        showToast('Message sent successfully!');
+      } catch (error) {
+        formStatus.textContent = 'Something went wrong. Please email me directly at andrewcolindeleon13@gmail.com.';
       }
     });
   }

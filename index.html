@@ -336,22 +336,22 @@
         </div>
       </div>
       <div class="contact-form fade-in" style="transition-delay:0.15s">
-        <form id="contactForm" class="contact-form-inner" action="https://formsubmit.co/andrewcolindeleon13@gmail.com" method="POST" novalidate>
+        <form id="contactForm" class="contact-form-inner" action="https://formsubmit.co/ajax/andrewcolindeleon13@gmail.com" method="POST" novalidate>
           <input type="hidden" name="_captcha" value="false" />
           <input type="hidden" name="_subject" value="New message from portfolio website" />
-          <input type="hidden" name="_next" id="formNext" value="" />
           <div class="form-group">
             <label for="contactName">Your Name</label>
             <input id="contactName" name="name" type="text" placeholder="Juan dela Cruz" required />
           </div>
           <div class="form-group">
             <label for="contactEmail">Email Address</label>
-            <input id="contactEmail" name="email" type="email" placeholder="juan@example.com" required />
+            <input id="contactEmail" name="_replyto" type="email" placeholder="juan@example.com" required />
           </div>
           <div class="form-group">
             <label for="contactMessage">Message</label>
             <textarea id="contactMessage" name="message" placeholder="Tell me about your project..." required></textarea>
           </div>
+          <div id="formStatus" class="form-status">Ready to send your message.</div>
           <button type="submit" class="btn-send">Send Message →</button>
         </form>
         <div id="toast" class="toast" aria-live="polite" role="status">Thank you! Your message has been sent successfully.</div>

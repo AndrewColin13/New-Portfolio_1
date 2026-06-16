@@ -780,6 +780,12 @@ section { padding: 7rem 6%; position: relative; }
   box-shadow: 0 0 0 3px rgba(255,255,255,0.04);
 }
 .form-group textarea { min-height: 120px; }
+.form-status {
+  color: rgba(255,255,255,0.75);
+  margin-top: 0.4rem;
+  font-size: 0.92rem;
+  line-height: 1.4;
+}
 .btn-send {
   background: #fff; color: #000;
   border: none;
